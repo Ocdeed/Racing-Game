@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Legend Asphalt</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <header class="hud">
+        <div class="hud-left">Speed: <span id="speed">0</span> km/h</div>
+        <div class="hud-center">Score: <span id="score">0</span></div>
+        <div class="hud-right">High Score: <span id="highScore">0</span></div>
+      </header>
+
+      <main>
+        <canvas id="gameCanvas"></canvas>
+
+        <div id="startScreen" class="overlay">
+          <h1>Legend Asphalt</h1>
+          <button id="startButton" aria-label="Start race">Race Now</button>
+          <div class="controls">
+            <p>Controls:</p>
+            <p>← → or A D: Steer</p>
+            <p>↑ ↓ or W S: Speed</p>
+          </div>
+        </div>
+
+        <div id="gameOverScreen" class="overlay hidden">
+          <h2>Crash!</h2>
+          <p>Final Score: <span id="finalScore">0</span></p>
+          <button id="restartButton" aria-label="Restart race">
+            Race Again
+          </button>
+        </div>
+      </main>
+      <footer class="game-footer">
+        <p>
+          © 2025 Legend Asphalt. Created by
+          <a href="#" class="credit-link">Ocdeed Codes</a>
+        </p>
+      </footer>
+    </div>
+
+    <audio id="engineSound" src="engine.mp3" loop></audio>
+    <audio id="crashSound" src="crash.mp3"></audio>
+    <audio id="nitroSound" src="nitro.mp3"></audio>
+
+    <script src="script.js"></script>
+  </body>
+</html>
