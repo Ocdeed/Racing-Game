@@ -36,6 +36,14 @@ class Game {
     this.score = 0;
     this.displaySpeed = 0;
 
+    // Add mobile control button states
+    this.mobileControls = {
+      left: false,
+      right: false,
+      accelerate: false,
+      brake: false,
+    };
+
     this.bindEvents();
     this.loadSounds();
   }
@@ -78,6 +86,28 @@ class Game {
     document
       .getElementById("restartButton")
       .addEventListener("click", () => this.restart());
+
+    // Mobile control buttons
+    const buttons = {
+      leftBtn: "left",
+      rightBtn: "right",
+      accelerateBtn: "accelerate",
+      brakeBtn: "brake",
+    };
+
+    Object.entries(buttons).forEach(([btnId, control]) => {
+      const button = document.getElementById(btnId);
+      if (button) {
+        button.addEventListener("touchstart", (e) => {
+          e.preventDefault();
+          this.mobileControls[control] = true;
+        });
+        button.addEventListener("touchend", (e) => {
+          e.preventDefault();
+          this.mobileControls[control] = false;
+        });
+      }
+    });
   }
 
   loadSounds() {
@@ -114,10 +144,25 @@ class Game {
   }
 
   updateCar() {
-    // Keyboard controls
-    if (this.keys["ArrowLeft"] || this.keys["a"]) this.car.velocity.x = -5;
-    else if (this.keys["ArrowRight"] || this.keys["d"]) this.car.velocity.x = 5;
-    else this.car.velocity.x *= 0.9;
+    // Update car controls to include mobile buttons
+    if (this.keys["ArrowLeft"] || this.keys["a"] || this.mobileControls.left) {
+      this.car.velocity.x = -5;
+    } else if (
+      this.keys["ArrowRight"] ||
+      this.keys["d"] ||
+      this.mobileControls.right
+    ) {
+      this.car.velocity.x = 5;
+    } else {
+      this.car.velocity.x *= 0.9;
+    }
+
+    // Handle acceleration and braking
+    if (this.mobileControls.accelerate) {
+      this.speed = Math.min(this.speed * 1.02, this.baseSpeed * 2);
+    } else if (this.mobileControls.brake) {
+      this.speed = Math.max(this.speed * 0.98, this.baseSpeed * 0.5);
+    }
 
     this.car.x += this.car.velocity.x;
     this.car.x = Math.max(
